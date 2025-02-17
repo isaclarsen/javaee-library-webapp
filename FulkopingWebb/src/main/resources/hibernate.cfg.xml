@@ -17,7 +17,7 @@
 
             We use none since we allready created the table using SQL
         -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
         <!--
             This is our enteties (tables)
         -->
