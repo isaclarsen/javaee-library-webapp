@@ -16,10 +16,17 @@ public class AppController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
+        //Book book = new Book();
+        //book.setTitle("Harry Potter och De Vises Sten");
+        //book.setAuthor("J.K Rowling");
+        //book.setGenre("Fantasy");
+        //BookDAO bookDAO = new BookDAO();
+        //bookDAO.saveBook(book);
+
         HttpSession session = req.getSession(false);
 
         try{
-            req.getRequestDispatcher("view/login.jsp").forward(req, res);
+            req.getRequestDispatcher("view/index.jsp").forward(req, res);
         }catch(Throwable e){
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package org.example.fulkopingwebb.model;
 
 import jakarta.persistence.*;
 
+//Skapar tabellen book med kolumner
 @Entity
 @Table(name = "Book")
 public class Book {

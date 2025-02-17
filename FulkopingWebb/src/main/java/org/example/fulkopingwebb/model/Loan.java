@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
+//Skapar tabellen loan med kolumner
 @Entity
 @Table(name = "Loan")
 public class Loan {

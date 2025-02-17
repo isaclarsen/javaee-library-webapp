@@ -1,7 +1,7 @@
 package org.example.fulkopingwebb.model;
 import jakarta.persistence.*;
 
-
+//Skapar tabellen user med kolumner
 @Entity
 @Table(name = "User")
 public class User {

@@ -1,18 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: IsacL
-  Date: 2025-02-13
-  Time: 17:48
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="../WEB-INF/fragments/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<head>
-    <title>Login</title>
-    <h1>Here Login Page Will Be</h1>
-</head>
-<body>
+<h1>Here Login Page Will Be</h1>
 <p>test</p>
 <c:forEach items="${books}" var="book">
     <!--Test-->
@@ -23,5 +13,6 @@
         <li>${book.genre}</li>
     </ul>
 </c:forEach>
-</body>
-</html>
+
+
+<%@include file="../WEB-INF/fragments/footer.jsp"%>
