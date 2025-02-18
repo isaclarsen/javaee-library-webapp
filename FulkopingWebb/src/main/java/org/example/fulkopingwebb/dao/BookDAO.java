@@ -4,6 +4,7 @@ import org.example.fulkopingwebb.model.Book;
 import org.example.fulkopingwebb.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -65,6 +66,23 @@ public class BookDAO {
             Book book = session.get(Book.class, id);
             return book;
         }
+
+    public List<Book> searchBooks(String query) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        //Om man söker tomt så ska man meddelas att man behöver söka efter något (FIXA)
+        if (query == null || query.length() == 0) {
+            return null;
+        }
+        try{
+            Query<Book> hqlQuery = session.createQuery(
+                    "FROM Book WHERE title LIKE :query OR genre LIKE :query OR author LIKE :query", Book.class
+            );
+            hqlQuery.setParameter("query", "%" + query + "%");
+            return hqlQuery.getResultList();
+        }finally{
+            session.close();
+        }
+    }
 
     //Se alla böcker
     public static List<Book> getAllBooks() {
