@@ -19,10 +19,9 @@ public class SearchController extends HttpServlet {
 
         BookDAO bookDAO = new BookDAO();
         //Om man inte söker efter något
-        //Funkar ej
-        if(req.getParameter("q") == null){
-            req.setAttribute("error", "Ange en sökterm");
-            req.getRequestDispatcher("/view/book/bookList.jsp").forward(req, res);
+        String q = req.getParameter("q");
+        if("q" == null || q.trim().isEmpty()) {
+            error(req, res, "Sökrutan är tom! Vänligen fyll i sökrutan");
             return;
         }
         //Search Result
@@ -31,5 +30,15 @@ public class SearchController extends HttpServlet {
         req.getRequestDispatcher("/view/book/bookList.jsp").forward(req, res);
 
 
+    }
+
+    private void error(HttpServletRequest req, HttpServletResponse res, String error){
+        req.setAttribute("error", error);
+
+        try {
+            req.getRequestDispatcher("/view/index.jsp").forward(req, res);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 }

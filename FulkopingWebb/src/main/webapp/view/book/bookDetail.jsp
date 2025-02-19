@@ -3,17 +3,11 @@
 <%@include file="/WEB-INF/fragments/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${not empty error}">
-  <span>${error}</span>
-</c:if>
 
 
-<c:forEach items="${books}" var="book">
-  <ul>
-    <a href="/books?id=${book.id}"><li>${book.title}</li></a>
-    <li>${book.author}</li>
-  </ul>
-</c:forEach>
+<p>${book.title}</p>
+<p>${book.author}</p>
+<p>${book.genre}</p>
 
 
 <%@include file="/WEB-INF/fragments/footer.jsp"%>
