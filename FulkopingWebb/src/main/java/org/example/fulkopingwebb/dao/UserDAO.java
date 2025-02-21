@@ -2,8 +2,10 @@ package org.example.fulkopingwebb.dao;
 
 import org.example.fulkopingwebb.model.User;
 import org.example.fulkopingwebb.util.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -71,5 +73,17 @@ public class UserDAO {
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<User> users = session.createQuery("from User").list();
         return users;
+    }
+
+    public User getUser(String username) throws HibernateException {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            query.setParameter("username", username);
+            List<User> users = query.list();
+            if(users.isEmpty()){
+                return null;
+            }
+            return users.getFirst();
+        }
     }
 }
