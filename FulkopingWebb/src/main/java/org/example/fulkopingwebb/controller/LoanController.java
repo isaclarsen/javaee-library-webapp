@@ -57,7 +57,7 @@ public class LoanController extends HttpServlet {
 
             }else if("return".equals(action)){
                 int bookId = Integer.parseInt(req.getParameter("bookId"));
-                Loan loan = LoanDAO.getActiveLoan(user.getId(), bookId);
+                Loan loan = LoanDAO.getActiveLoan(bookId);
                 if(loan != null){
                     loan.setReturned(true);
 

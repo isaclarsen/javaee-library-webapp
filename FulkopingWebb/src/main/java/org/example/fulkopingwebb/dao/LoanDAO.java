@@ -75,10 +75,9 @@ public class LoanDAO {
     }
 
     //Get aktiva lån från en anv
-    public static Loan getActiveLoan(int userId, int bookId) {
+    public static Loan getActiveLoan( int bookId) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Loan loan = (Loan) session.createQuery("from Loan where user.id = :userId and book.id = :bookId and returned = false")
-                .setParameter("userId", userId)
+        Loan loan = (Loan) session.createQuery("from Loan where book.id = :bookId and returned = false")
                 .setParameter("bookId", bookId)
                 .uniqueResult();
         session.close();

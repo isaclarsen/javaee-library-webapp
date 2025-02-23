@@ -31,4 +31,5 @@
 
     <button type="submit">Logga in</button>
 </form>
+<p>Har du inte ett konto hos oss?<a href="view/register.jsp"> Skapa ett här!</a></p>
 <%@include file="../WEB-INF/fragments/footer.jsp"%>

@@ -2,13 +2,13 @@
 <%@include file="/WEB-INF/fragments/header.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<p>${book.title}</p>
-<p>${book.author}</p>
-<p>${book.genre}</p>
+<p><strong>Titel:</strong> ${book.title}</p>
+<p><strong>Författare:</strong> ${book.author}</p>
+<p><strong>Genre:</strong> ${book.genre}</p>
+
 <c:choose>
     <c:when test="${book.available}">
-        Tillgänglig
-        <!-- Visa knappen för att låna boken -->
+        <p style="color: green;">Tillgänglig</p>
         <form action="loan" method="post">
             <input type="hidden" name="action" value="borrow" />
             <input type="hidden" name="bookId" value="${book.id}" />
@@ -16,7 +16,10 @@
         </form>
     </c:when>
     <c:otherwise>
-        Ej tillgänglig
+        <p style="color: red;">Ej tillgänglig</p>
+        <c:if test="${not empty loan}">
+            <p><strong>Förväntas återlämnas:</strong> ${loan.returnDate}</p>
+        </c:if>
     </c:otherwise>
 </c:choose>
 

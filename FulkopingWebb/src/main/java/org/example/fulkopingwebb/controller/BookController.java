@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.fulkopingwebb.dao.BookDAO;
+import org.example.fulkopingwebb.dao.LoanDAO;
 import org.example.fulkopingwebb.model.Book;
+import org.example.fulkopingwebb.model.Loan;
 
 import java.io.IOException;
 
@@ -22,6 +24,8 @@ public class BookController extends HttpServlet {
         if (req.getParameter("id") != null){
             int id = Integer.parseInt(req.getParameter("id"));
             Book book = bookDAO.getBookById(id);
+            Loan loan = LoanDAO.getActiveLoan(id);
+                req.setAttribute("loan", loan);
                 req.setAttribute("book", book);
                 req.getRequestDispatcher("view/book/bookDetail.jsp").forward(req, res);
         }
