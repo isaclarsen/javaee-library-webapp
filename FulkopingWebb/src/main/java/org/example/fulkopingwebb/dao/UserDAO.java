@@ -45,7 +45,7 @@ public class UserDAO {
     }
 
     //Ta bort User
-    public void deleteBook(User user) {
+    public void deleteUser(User user) {
         Transaction tx = null;
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();

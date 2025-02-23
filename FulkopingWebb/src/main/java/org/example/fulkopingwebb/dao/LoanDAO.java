@@ -10,7 +10,7 @@ import java.util.List;
 public class LoanDAO {
 
     //Skapa loan
-    public void saveLoan(Loan loan) {
+    public static void saveLoan(Loan loan) {
         Transaction tx = null;
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -21,13 +21,13 @@ public class LoanDAO {
         }catch(Throwable e){
             if(tx != null){
                 tx.rollback();
-                throw e;
             }
+            throw e;
         }
     }
 
     //Redigera loan
-    public void updateLoan(Loan loan) {
+    public static void updateLoan(Loan loan) {
         Transaction tx = null;
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -73,4 +73,16 @@ public class LoanDAO {
         List<Loan> loans = session.createQuery("from Loan").list();
         return loans;
     }
+
+    //Get aktiva lån från en anv
+    public static Loan getActiveLoan(int userId, int bookId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Loan loan = (Loan) session.createQuery("from Loan where user.id = :userId and book.id = :bookId and returned = false")
+                .setParameter("userId", userId)
+                .setParameter("bookId", bookId)
+                .uniqueResult();
+        session.close();
+        return loan;
+    }
+
 }

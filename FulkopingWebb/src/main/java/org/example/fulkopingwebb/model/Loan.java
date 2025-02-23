@@ -1,6 +1,7 @@
 package org.example.fulkopingwebb.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -26,13 +27,17 @@ public class Loan {
     private User user;
 
     @Column(name = "loanDate")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date loanDate;
 
 
     @Column(name = "returnDate")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date returnDate;
+
+    @Column(name = "returned")
+    @ColumnDefault("false")
+    private boolean returned;
 
     public Loan(){
         LocalDate loanDate = LocalDate.now();
@@ -77,6 +82,14 @@ public class Loan {
 
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void setReturned(boolean returned) {
+        this.returned = returned;
     }
 
     @Override

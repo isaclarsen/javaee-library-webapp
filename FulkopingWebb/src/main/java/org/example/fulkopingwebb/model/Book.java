@@ -2,6 +2,7 @@ package org.example.fulkopingwebb.model;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 //Skapar tabellen book med kolumner
 @Entity
@@ -21,6 +22,10 @@ public class Book {
 
     @Column(name =  "genre")
     private String genre;
+
+    @Column(name = "available")
+    @ColumnDefault("true")
+    private boolean available;
 
     public Book(){}
 
@@ -54,5 +59,14 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
