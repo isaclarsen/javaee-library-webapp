@@ -90,4 +90,26 @@ public class BookDAO {
             List<Book> books = session.createQuery("from Book").list();
             return books;
         }
+
+
+    public Book getBookWithActiveLoan(int bookId) {
+        Book book = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            book = session.createQuery(
+                            "SELECT DISTINCT b FROM Book b " +
+                                    "LEFT JOIN FETCH b.loans " +
+                                    "WHERE b.id = :id", Book.class)
+                    .setParameter("id", bookId)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return book;
+    }
+
+
+
+
+
+
 }

@@ -12,8 +12,15 @@
                 ${error}
         </div>
     </c:if>
+
+    <c:if test="${not empty message}">
+        <div class="alert alert-success">
+                ${message}
+        </div>
+    </c:if>
     <b>Användare:</b> ${sessionScope.user.username}
     <a href="/login?logout=true">Logga ut</a>
+    <a href="/currentLoans">Aktiva lån</a>
 
     <label for="search"></label>
     <input type="search" id="search" name="q" placeholder="Sök bok">

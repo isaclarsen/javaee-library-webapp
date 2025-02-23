@@ -4,6 +4,7 @@ import org.example.fulkopingwebb.model.Loan;
 import org.example.fulkopingwebb.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -74,14 +75,42 @@ public class LoanDAO {
         return loans;
     }
 
-    //Get aktiva lån från en anv
-    public static Loan getActiveLoan( int bookId) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Loan loan = (Loan) session.createQuery("from Loan where book.id = :bookId and returned = false")
-                .setParameter("bookId", bookId)
-                .uniqueResult();
-        session.close();
+    //Get aktiva lån från en bok
+    public static Loan getActiveLoan(int bookId) {
+        Loan loan = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            loan = session.createQuery(
+                            "SELECT l FROM Loan l " +
+                                    "JOIN FETCH l.book " +
+                                    "WHERE l.book.id = :bookId AND l.returned = false", Loan.class)
+                    .setParameter("bookId", bookId)
+                    .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return loan;
     }
+
+
+    public static List<Loan> getActiveLoansForUser(int userId) {
+        List<Loan> loans = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Loan> query = session.createQuery(
+                    "SELECT l FROM Loan l " +
+                            "LEFT JOIN FETCH l.book " +  // Hämtar boken i samma fråga
+                            "LEFT JOIN FETCH l.user " +  // Hämtar användaren i samma fråga
+                            "WHERE l.user.id = :userId AND l.returned = false", Loan.class
+            );
+
+            query.setParameter("userId", userId);
+            loans = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+
+
 
 }

@@ -4,6 +4,8 @@ package org.example.fulkopingwebb.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
+
 //Skapar tabellen book med kolumner
 @Entity
 @Table(name = "Book")
@@ -26,6 +28,9 @@ public class Book {
     @Column(name = "available")
     @ColumnDefault("true")
     private boolean available;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    private List<Loan> loans;
 
     public Book(){}
 
@@ -68,5 +73,13 @@ public class Book {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
     }
 }

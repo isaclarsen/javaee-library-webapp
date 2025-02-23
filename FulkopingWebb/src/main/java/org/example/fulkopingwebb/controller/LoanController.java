@@ -1,5 +1,6 @@
 package org.example.fulkopingwebb.controller;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.example.fulkopingwebb.model.Book;
 import org.example.fulkopingwebb.model.Loan;
 import org.example.fulkopingwebb.model.User;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -52,8 +54,8 @@ public class LoanController extends HttpServlet {
                 LoanDAO.saveLoan(loan);
                 book.setAvailable(false);
                 new BookDAO().updateBook(book);
-                req.setAttribute("message", book.getTitle() + "har nu utlånats till" + user.getUsername() + "!");
-                req.getRequestDispatcher("view/currentLoans.jsp").forward(req, res);
+                req.setAttribute("message", book.getTitle() + " har nu utlånats till " + user.getUsername() + "!");
+                req.getRequestDispatcher("view/home.jsp").forward(req, res);
 
             }else if("return".equals(action)){
                 int bookId = Integer.parseInt(req.getParameter("bookId"));
@@ -67,16 +69,21 @@ public class LoanController extends HttpServlet {
 
                     LoanDAO.updateLoan(loan);
 
-                    res.sendRedirect("loan.jsp");
+                    req.setAttribute("message", "Boken: " + book.getTitle() + " har lämnats tillbaka!");
+                    req.getRequestDispatcher("view/loan/currentLoans.jsp").forward(req, res);
 
                 }else{
                     req.setAttribute("error", "Inget lån hittades för boken");
-                    req.getRequestDispatcher("loan.jsp").forward(req, res);
+                    req.getRequestDispatcher("view/home.jsp").forward(req, res);
                 }
             }
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        req.getRequestDispatcher("view/loan/currentLoans.jsp").forward(req, res);
     }
 }

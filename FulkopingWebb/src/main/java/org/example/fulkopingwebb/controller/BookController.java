@@ -16,20 +16,33 @@ import java.io.IOException;
 public class BookController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res){
-        try{
-        //Single view
-        BookDAO bookDAO = new BookDAO();
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) {
+        try {
+            BookDAO bookDAO = new BookDAO();
+            //Single view
+            if (req.getParameter("id") != null) {
+                int id = Integer.parseInt(req.getParameter("id"));
+                Book book = bookDAO.getBookWithActiveLoan(id);
 
-        if (req.getParameter("id") != null){
-            int id = Integer.parseInt(req.getParameter("id"));
-            Book book = bookDAO.getBookById(id);
-            Loan loan = LoanDAO.getActiveLoan(id);
-                req.setAttribute("loan", loan);
+                // Hitta eventuellt aktivt lån (där returned = false)
+                Loan activeLoan = null;
+                if (book.getLoans() != null) {
+                    for (Loan loan : book.getLoans()) {
+                        if (!loan.isReturned()) {
+                            activeLoan = loan;
+                            break;
+                        }
+                    }
+                }
+
+                req.setAttribute("loan", activeLoan);
                 req.setAttribute("book", book);
                 req.getRequestDispatcher("view/book/bookDetail.jsp").forward(req, res);
+            }
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
         }
-    }catch(ServletException | IOException e){
-        throw new RuntimeException(e);}
     }
 }
+
+

@@ -17,7 +17,7 @@ public class Loan {
     private int id;
 
     //Skapar kolumner för foreign key
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookId")
     private Book book;
 
@@ -40,8 +40,6 @@ public class Loan {
     private boolean returned;
 
     public Loan(){
-        LocalDate loanDate = LocalDate.now();
-        LocalDate returnDate = LocalDate.now().plusDays(30);
     }
 
     public int getId() {
