@@ -1,5 +1,6 @@
 package org.example.fulkopingwebb.controller.loan;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +29,8 @@ public class CurrentLoanController extends HttpServlet {
             HttpSession session = req.getSession();
             User user = (User) session.getAttribute("user");
             if (user == null) {
-                res.sendRedirect("view/login.jsp");
+                req.setAttribute("error", "Du måste vara inloggad för att få tillgång till dina lånade böcker");
+                req.getRequestDispatcher("/login").forward(req, res);
                 return;
             }
             List<Loan> currentLoans = LoanDAO.getActiveLoansForUser(user.getId());
@@ -38,4 +40,10 @@ public class CurrentLoanController extends HttpServlet {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        doGet(req, res);
+    }
+
 }

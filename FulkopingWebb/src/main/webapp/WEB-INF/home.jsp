@@ -1,8 +1,13 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="../WEB-INF/fragments/header.jsp"%>
+<%@include file="fragments/header.jsp"%>
+<%@include file="/WEB-INF/fragments/navbar.jsp"%>
+<h1>Välkommen till Fulköpings Bibliotek!</h1>
+<h3>
+    Inloggad som:
+    <small class="text-muted">${sessionScope.user.username}</small>
+</h3>
 
-<h1 class="text-center">Välkommen till Fulköpings Bibliotek!</h1>
 
 <c:if test="${not empty error}">
     <div class="alert alert-danger">
@@ -13,9 +18,14 @@
     <div class="card">
         <img class="card-img-top" src="https://www.kau.se/files/styles/max_650x650/public/2021-02/thought-catalog-o0Qqw21-0NI-unsplash.jpg?itok=EzFFcE_g" alt="Böcker">
         <div class="card-body">
-            <h5 class="card-title"><a href="/login">Logga in</a></h5>
-            <p class="card-text">Logga in för att få tillgång till att låna böcker, se lånehistorik med mera!</p>
-            <p class="card-text"><small class="text-muted">Har du inget konto? <a href="/register">Registrera dig</a></small></p>
+            <h5 class="card-title">Hur lånar jag en bok?</h5>
+            <ol>
+                <li class="card-text font-weight-bold">Sök efter en bok eller välj en bok från bokhyllan <br></li>
+                <li class="card-text">Tryck på boktiteln och kolla så att boken är tillgänglig<br></li>
+                <li class="card-text">Tryck på "låna boken", kolla sedan på dina nuvarande lån för att se deadline på återlämning</li>
+            </ol>
+
+            <p class="card-text"><small class="text-muted">Lätt som en plätt!</small></p>
         </div>
     </div>
     <div class="card">
@@ -42,4 +52,4 @@
 </div>
 
 
-<%@include file="../WEB-INF/fragments/footer.jsp"%>
+<%@include file="fragments/footer.jsp"%>

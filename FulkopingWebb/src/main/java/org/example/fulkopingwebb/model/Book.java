@@ -29,7 +29,7 @@ public class Book {
     @ColumnDefault("true")
     private boolean available;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private List<Loan> loans;
 
     public Book(){}

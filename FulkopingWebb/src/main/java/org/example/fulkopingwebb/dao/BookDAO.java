@@ -86,10 +86,12 @@ public class BookDAO {
 
     //Se alla böcker
     public static List<Book> getAllBooks() {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            List<Book> books = session.createQuery("from Book").list();
-            return books;
-        }
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Book> books = session.createQuery("SELECT b FROM Book b LEFT JOIN FETCH b.loans", Book.class).list();
+        session.close();
+        return books;
+    }
+
 
 
     public Book getBookWithActiveLoan(int bookId) {

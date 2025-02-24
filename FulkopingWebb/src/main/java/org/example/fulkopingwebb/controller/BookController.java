@@ -11,6 +11,7 @@ import org.example.fulkopingwebb.model.Book;
 import org.example.fulkopingwebb.model.Loan;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/books")
 public class BookController extends HttpServlet {
@@ -34,11 +35,15 @@ public class BookController extends HttpServlet {
                         }
                     }
                 }
-
                 req.setAttribute("loan", activeLoan);
                 req.setAttribute("book", book);
                 req.getRequestDispatcher("view/book/bookDetail.jsp").forward(req, res);
             }
+            //Listview
+            List<Book> books = BookDAO.getAllBooks();
+            req.setAttribute("books", books);
+            req.getRequestDispatcher("view/book/bookList.jsp").forward(req, res);
+
         } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }

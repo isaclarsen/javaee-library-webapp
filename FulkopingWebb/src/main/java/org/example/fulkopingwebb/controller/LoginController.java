@@ -17,8 +17,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res){
-
-        //Används till att logga ut, lägg in i navbar senare
+        //Logga ut
         try {
             Boolean logout = Boolean.parseBoolean(req.getParameter("logout"));
             if(logout) {
@@ -28,7 +27,7 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("user", null);
                     session.invalidate();
                 }
-                req.setAttribute("message", "You have been logged out");
+                req.setAttribute("message", "Du har loggats ut");
             }
             req.getRequestDispatcher("/view/login.jsp").forward(req, res);
         } catch (Throwable e) {
@@ -38,7 +37,7 @@ public class LoginController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+        //Logga in
         String username = req.getParameter("username") == null ? "" : req.getParameter("username");
         String password = req.getParameter("password") == null ? "" : req.getParameter("password");
         String error = null;
@@ -71,7 +70,7 @@ public class LoginController extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
 
-            req.getRequestDispatcher("/view/home.jsp").forward(req, res);
+            req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, res);
 
         }catch(Exception e){
             error = "Ett internt fel inträffade, försök igen!";

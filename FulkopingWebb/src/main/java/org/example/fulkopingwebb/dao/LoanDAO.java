@@ -76,7 +76,7 @@ public class LoanDAO {
     }
 
     //Get aktiva lån från en bok
-    public static Loan getActiveLoan(int bookId) {
+    public static Loan getActiveLoanForBook(int bookId) {
         Loan loan = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             loan = session.createQuery(
@@ -102,6 +102,24 @@ public class LoanDAO {
                             "WHERE l.user.id = :userId AND l.returned = false", Loan.class
             );
 
+            query.setParameter("userId", userId);
+            loans = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    public static List<Loan> getLoanHistoryForUser(int userId) {
+
+        List<Loan> loans = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Loan> query = session.createQuery(
+                    "SELECT l FROM Loan l " +
+                            "LEFT JOIN FETCH l.book " +
+                            "LEFT JOIN FETCH l.user " +
+                            "WHERE l.user.id = :userId AND l.returned = true", Loan.class
+            );
             query.setParameter("userId", userId);
             loans = query.getResultList();
         } catch (Exception e) {

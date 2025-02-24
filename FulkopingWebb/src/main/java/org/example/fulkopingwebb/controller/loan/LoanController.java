@@ -1,4 +1,4 @@
-package org.example.fulkopingwebb.controller;
+package org.example.fulkopingwebb.controller.loan;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,6 +40,7 @@ public class LoanController extends HttpServlet {
             if("borrow".equals(action)){
                 //Hämta bokid parametern
                 int bookId = Integer.parseInt(req.getParameter("bookId"));
+
                 Book book = bookDAO.getBookById(bookId);
                 Loan loan = new Loan();
 
@@ -55,13 +56,15 @@ public class LoanController extends HttpServlet {
                 book.setAvailable(false);
                 new BookDAO().updateBook(book);
                 req.setAttribute("message", book.getTitle() + " har nu utlånats till " + user.getUsername() + "!");
-                req.getRequestDispatcher("view/home.jsp").forward(req, res);
+                req.getRequestDispatcher("/currentLoans").forward(req, res);
+
 
             }else if("return".equals(action)){
                 int bookId = Integer.parseInt(req.getParameter("bookId"));
-                Loan loan = LoanDAO.getActiveLoan(bookId);
+                Loan loan = LoanDAO.getActiveLoanForBook(bookId);
                 if(loan != null){
                     loan.setReturned(true);
+                    loan.setReturnDate(Date.valueOf(LocalDate.now()));
 
                     Book book = loan.getBook();
                     book.setAvailable(true);
@@ -70,11 +73,12 @@ public class LoanController extends HttpServlet {
                     LoanDAO.updateLoan(loan);
 
                     req.setAttribute("message", "Boken: " + book.getTitle() + " har lämnats tillbaka!");
-                    req.getRequestDispatcher("view/loan/currentLoans.jsp").forward(req, res);
+                    req.getRequestDispatcher("/currentLoans").forward(req, res);
+
 
                 }else{
                     req.setAttribute("error", "Inget lån hittades för boken");
-                    req.getRequestDispatcher("view/home.jsp").forward(req, res);
+                    req.getRequestDispatcher("/books").forward(req, res);
                 }
             }
 
@@ -84,6 +88,6 @@ public class LoanController extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.getRequestDispatcher("view/loan/currentLoans.jsp").forward(req, res);
+        req.getRequestDispatcher("/books").forward(req, res);
     }
 }

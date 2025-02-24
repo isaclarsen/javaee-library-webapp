@@ -22,7 +22,7 @@ public class Loan {
     private Book book;
 
     //Skapar kolumner för foreign key
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 

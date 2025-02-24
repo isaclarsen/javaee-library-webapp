@@ -14,7 +14,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res){
         try{
-            req.getRequestDispatcher("/view/register").forward(req, res);
+            req.getRequestDispatcher("/view/register.jsp").forward(req, res);
         }catch(Throwable e){
             throw new RuntimeException(e);
         }
@@ -70,7 +70,6 @@ public class RegisterController extends HttpServlet {
             System.out.println(e.getMessage());
         }try {
             //Skickar tillbaka användaren till registreringssidan med antingen success meddelande eller ett error
-            //Eventuellt gör en success sida!!!!!!
             req.getRequestDispatcher("view/register.jsp").forward(req, res);
         }catch(Throwable e){
             throw new RuntimeException(e);
