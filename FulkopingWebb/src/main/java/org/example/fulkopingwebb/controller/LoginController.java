@@ -28,8 +28,8 @@ public class LoginController extends HttpServlet {
                     session.invalidate();
                 }
                 req.setAttribute("message", "Du har loggats ut");
+                req.getRequestDispatcher("/view/index.jsp").forward(req, res);
             }
-            req.getRequestDispatcher("/view/login.jsp").forward(req, res);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }

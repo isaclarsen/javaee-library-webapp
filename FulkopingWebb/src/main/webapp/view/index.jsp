@@ -9,6 +9,11 @@
             ${error}
     </div>
 </c:if>
+<c:if test="${not empty message}">
+    <div class="success alert-success">
+            ${message}
+    </div>
+</c:if>
 <div class="card-group">
     <div class="card">
         <img class="card-img-top" src="https://www.kau.se/files/styles/max_650x650/public/2021-02/thought-catalog-o0Qqw21-0NI-unsplash.jpg?itok=EzFFcE_g" alt="Böcker">
